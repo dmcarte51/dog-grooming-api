@@ -1,13 +1,12 @@
-package com.example.doggroomingapi.user;
+package com.example.doggroomingapi.dogs;
 
 
-import com.example.doggroomingapi.exceptions.UserAlreadyExistsException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -20,11 +19,11 @@ public class UserService {
     protected EntityManager entityManager;
 
 
-    public List<User> getUsers() {
+    public List<Dog> getUsers() {
         return userRepository.findAll();
     }
 
-    public User getUser(Long id) {
+    public Dog getUser(Long id) {
         try {
             return userRepository.findById(id).get();
         } catch(NoSuchElementException | IllegalArgumentException e) {
@@ -43,10 +42,10 @@ public class UserService {
 //    }
 
     @Transactional
-    public User saveUser(User user) {
-        user = userRepository.saveAndFlush(user);
-        entityManager.refresh(user);
-        return user;
+    public Dog saveUser(Dog dog) {
+        dog = userRepository.saveAndFlush(dog);
+        entityManager.refresh(dog);
+        return dog;
     }
 
     public boolean deleteUser(Long id) {

@@ -37,6 +37,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @NotNull
+    @NotEmpty
+    @Column(name = "match_password")
     private String matchPassword;
 
     @NotNull
