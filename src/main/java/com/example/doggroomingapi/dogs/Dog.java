@@ -17,13 +17,28 @@ public class Dog {
 
     // Foreign key to user table
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username")
+//    @JoinColumn(name = "username")
     private User user;
 
     @NotNull
     @NotEmpty
     @Column(name = "name")
     private String name;
+
+    @NotNull
+    @NotEmpty
+    @Column(name = "breed")
+    private String breed;
+
+    @NotNull
+    @NotEmpty
+    @Column(name = "breed")
+    private int weight;
+
+    @NotNull
+    @NotEmpty
+    @Column(name = "is_bite_risk")
+    private boolean isBiteRisk;
 
     @NotNull
     @NotEmpty

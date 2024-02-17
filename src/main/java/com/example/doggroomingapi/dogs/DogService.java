@@ -11,21 +11,21 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class UserService {
+public class DogService {
     @Autowired
-    private UserRepository userRepository;
+    private DogRepository dogRepository;
 
     @PersistenceContext
     protected EntityManager entityManager;
 
 
-    public List<Dog> getUsers() {
-        return userRepository.findAll();
+    public List<Dog> getAllDogs() {
+        return dogRepository.findAll();
     }
 
-    public Dog getUser(Long id) {
+    public List<Dog> getDogsByUser(Long id) {
         try {
-            return userRepository.findById(id).get();
+            return dogRepository.findById(id).get();
         } catch(NoSuchElementException | IllegalArgumentException e) {
             e.printStackTrace();
             return null;
@@ -42,30 +42,22 @@ public class UserService {
 //    }
 
     @Transactional
-    public Dog saveUser(Dog dog) {
-        dog = userRepository.saveAndFlush(dog);
+    public Dog saveDog(Dog dog) {
+        dog = dogRepository.saveAndFlush(dog);
         entityManager.refresh(dog);
         return dog;
     }
 
-    public boolean deleteUser(Long id) {
+    public boolean deleteDog(Long id) {
         try {
-            if(userRepository.existsById(id)) {
-                userRepository.deleteById(id);
+            if(dogRepository.existsById(id)) {
+                dogRepository.deleteById(id);
                 return true;
             }
         } catch(IllegalArgumentException e) {
             e.printStackTrace();
         }
-
         return false;
-    }
-    // Custom findByEmail created in UserRepository
-    public boolean emailAvailable(String email) {
-        return userRepository.findByEmail(email).isEmpty();
-    }
-    public boolean usernameAvailable(String username) {
-        return userRepository.findByUsername(username).isEmpty();
     }
 }
 
