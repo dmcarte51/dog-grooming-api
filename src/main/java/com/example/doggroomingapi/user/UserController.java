@@ -20,7 +20,7 @@ public class UserController {
     @Autowired
     public UserService userService;
 
-    @PostMapping("/registration")
+    @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         try {
             return ResponseEntity.ok(userService.saveUser(user));
@@ -28,6 +28,13 @@ public class UserController {
             return new ResponseEntity(ExceptionUtils.getStackTrace(e), HttpStatus.BAD_REQUEST);
         }
     }
+
+    // // Used for testing
+//    @GetMapping(path = "/by-email/{email}")
+//    public User getUserByEmail(@PathVariable String email) {
+//        System.out.println("testing");
+//        return ResponseEntity.ok(userService.findByEmail(email)).getBody();
+//    }
 
     @GetMapping(produces = "application/json")
     public List<User> getUsers() {

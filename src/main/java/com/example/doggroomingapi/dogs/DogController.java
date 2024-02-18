@@ -15,7 +15,7 @@ public class DogController {
     @Autowired
     public DogService dogService;
 
-    @PostMapping("/add-dog")
+    @PostMapping(path = "/add-dog")
     public ResponseEntity<Dog> addDog(@RequestBody Dog dog) {
         try {
             return ResponseEntity.ok(dogService.saveDog(dog));
@@ -24,22 +24,26 @@ public class DogController {
         }
     }
 
-    @GetMapping(produces = "application/json")
-    public List<Dog> getDogsByUser(@PathVariable String ) {
-            System.out.println("testing");
-            return ResponseEntity.ok(dogService.getDogsByUser()).getBody();
+    @GetMapping()
+    public List<Dog> getAllDogs() {
+        return dogService.getAllDogs();
     }
 
-//    @GetMapping(path = "/{id}", produces = "application/json")
-//    public Dog getDog(@PathVariable Long id) {
-//        return dogService.getDog(id);
-//    }
+    @GetMapping(path = "/{dog_id}", produces = "application/json")
+    public Dog getDogsById(@PathVariable Long dog_id) {
+            return ResponseEntity.ok(dogService.getDogById(dog_id)).getBody();
+    }
 
-//    @PutMapping(path = "/{id}", produces = "application/json", consumes = "application/json")
-//    public Dog updateDog(@PathVariable Long id, @RequestBody Dog newDog) {
-//        Dog oldDog = userService.getDog(id);
-//        return oldDog;
-//    }
+    @GetMapping(path = "/by-user/{user_id}", produces = "application/json")
+    public List<Dog> getDogByUser(@PathVariable Long user_id) {
+        return dogService.getDogsByUserId(user_id);
+    }
 
+    @PutMapping(path = "/{id}", produces = "application/json", consumes = "application/json")
+    public Dog updateDog(@PathVariable Long id, @RequestBody Dog newDog) {
+        Dog oldDog = dogService.getDogById(id);
+        oldDog = newDog;
+        return ResponseEntity.ok(oldDog).getBody();
+    }
 
 }

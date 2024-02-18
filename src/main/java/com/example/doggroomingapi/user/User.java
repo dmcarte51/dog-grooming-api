@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 public class User {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull

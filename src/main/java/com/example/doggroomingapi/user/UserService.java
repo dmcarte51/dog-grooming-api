@@ -34,14 +34,6 @@ public class UserService {
     }
 
 
-//    public Dog registerNewUserAccount(Dog user) {
-//        try {
-//
-//        } catch (UserAlreadyExistsException e) {
-//
-//        }
-//    }
-
     @Transactional
     public User saveUser(User user) {
         user = userRepository.saveAndFlush(user);
@@ -62,6 +54,11 @@ public class UserService {
         return false;
     }
     // Custom findByEmail created in UserRepository
+
+    // // Used for testing
+//    public User findByEmail(String email) {
+//        return userRepository.findByEmail(email);
+//    }
     public boolean emailAvailable(String email) {
         return userRepository.findByEmail(email).isEmpty();
     }

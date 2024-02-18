@@ -18,28 +18,9 @@ public class DogService {
     @PersistenceContext
     protected EntityManager entityManager;
 
-
     public List<Dog> getAllDogs() {
         return dogRepository.findAll();
     }
-
-    public List<Dog> getDogsByUser(Long id) {
-        try {
-            return dogRepository.findById(id).get();
-        } catch(NoSuchElementException | IllegalArgumentException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-//    public Dog registerNewUserAccount(Dog user) {
-//        try {
-//
-//        } catch (UserAlreadyExistsException e) {
-//
-//        }
-//    }
 
     @Transactional
     public Dog saveDog(Dog dog) {
@@ -58,6 +39,28 @@ public class DogService {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public Dog getDogById(Long id) {
+        try {
+            return dogRepository.findById(id).get();
+        } catch(NoSuchElementException | IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // TODO: Experimental methods
+
+    public List<Dog> getDogsByUserId(Long user_id) {
+        try {
+            System.out.println(dogRepository.findDogsByUserId(user_id));
+            System.out.println(user_id);
+            return dogRepository.findDogsByUserId(user_id);
+        } catch(NoSuchElementException | IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
 

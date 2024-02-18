@@ -17,7 +17,7 @@ public class Dog {
 
     // Foreign key to user table
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "username")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @NotNull
@@ -32,7 +32,7 @@ public class Dog {
 
     @NotNull
     @NotEmpty
-    @Column(name = "breed")
+    @Column(name = "weight")
     private int weight;
 
     @NotNull
@@ -49,10 +49,6 @@ public class Dog {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -61,11 +57,39 @@ public class Dog {
         this.name = name;
     }
 
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public boolean getIsBiteRisk() {
+        return isBiteRisk;
+    }
+
+    public void setBiteRisk(boolean biteRisk) {
+        isBiteRisk = biteRisk;
+    }
+
     public int getAge() {
         return age;
     }
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public User getUser() {
+        return user;
     }
 }
