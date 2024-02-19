@@ -4,9 +4,11 @@ import com.example.doggroomingapi.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Table(name = "dogs")
 @Entity
@@ -47,15 +49,13 @@ public class Dog {
     @Column(name = "is_bite_risk")
     private boolean isBiteRisk;
 
-    @NotNull
-    @NotEmpty
-    @Column(name = "age")
-    private int age;
-
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @Column(name = "birthday")
+    private Date birthday;
     public Dog() {
     }
 
-    public Dog(Long id, User user, Long userId, String name, String breed, int weight, boolean isBiteRisk, int age) {
+    public Dog(Long id, User user, Long userId, String name, String breed, int weight, boolean isBiteRisk, Date birthday) {
         this.id = id;
         this.user = user;
         this.userId = userId;
@@ -63,7 +63,7 @@ public class Dog {
         this.breed = breed;
         this.weight = weight;
         this.isBiteRisk = isBiteRisk;
-        this.age = age;
+        this.birthday = birthday;
     }
 
     public Long getUserId() {
@@ -110,12 +110,12 @@ public class Dog {
         isBiteRisk = biteRisk;
     }
 
-    public int getAge() {
-        return age;
+    public Date getAge() {
+        return birthday;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAge(Date birthday) {
+        this.birthday = birthday;
     }
 
     public User getUser() {
