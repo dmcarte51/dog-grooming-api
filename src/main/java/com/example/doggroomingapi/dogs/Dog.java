@@ -1,6 +1,8 @@
 package com.example.doggroomingapi.dogs;
 
 import com.example.doggroomingapi.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -17,8 +19,13 @@ public class Dog {
 
     // Foreign key to user table
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonIgnore
     private User user;
+
+    @Column(name = "user_id")
+    @JsonProperty("userId")
+    private Long userId;
 
     @NotNull
     @NotEmpty
@@ -44,6 +51,28 @@ public class Dog {
     @NotEmpty
     @Column(name = "age")
     private int age;
+
+    public Dog() {
+    }
+
+    public Dog(Long id, User user, Long userId, String name, String breed, int weight, boolean isBiteRisk, int age) {
+        this.id = id;
+        this.user = user;
+        this.userId = userId;
+        this.name = name;
+        this.breed = breed;
+        this.weight = weight;
+        this.isBiteRisk = isBiteRisk;
+        this.age = age;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public Long getId() {
         return id;
@@ -91,5 +120,9 @@ public class Dog {
 
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

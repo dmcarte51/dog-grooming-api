@@ -24,9 +24,9 @@ public class DogService {
 
     @Transactional
     public Dog saveDog(Dog dog) {
-        dog = dogRepository.saveAndFlush(dog);
+        Dog newDog = dogRepository.saveAndFlush(dog);
         entityManager.refresh(dog);
-        return dog;
+        return newDog;
     }
 
     public boolean deleteDog(Long id) {
