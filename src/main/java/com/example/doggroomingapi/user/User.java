@@ -1,9 +1,9 @@
 package com.example.doggroomingapi.user;
-
 import com.example.doggroomingapi.dogs.Dog;
 import com.example.doggroomingapi.validators.PasswordMatches;
 import com.example.doggroomingapi.validators.ValidEmail;
-
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -55,12 +55,6 @@ public class User {
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
-//    @OneToMany(mappedBy = "user")
-//    private Set<Dog> dogs;
-
-    // Constructors
-
-
     public User() {
     }
 
@@ -73,16 +67,7 @@ public class User {
         this.matchPassword = matchPassword;
         this.email = email;
         this.phoneNumber = phoneNumber;
-//        this.dogs = dogs;
     }
-
-//    public Set<Dog> getDogs() {
-//        return dogs;
-//    }
-//
-//    public void setDogs(Set<Dog> dogs) {
-//        this.dogs = dogs;
-//    }
 
     public void setId(Long id) {
         this.id = id;
@@ -120,7 +105,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     public String getMatchPassword() {
@@ -128,7 +113,7 @@ public class User {
     }
 
     public void setMatchPassword(String matchPassword) {
-        this.matchPassword = matchPassword;
+        this.matchPassword = BCrypt.hashpw(matchPassword, BCrypt.gensalt());
     }
 
     public String getEmail() {
