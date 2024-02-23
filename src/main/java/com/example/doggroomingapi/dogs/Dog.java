@@ -4,7 +4,10 @@ import com.example.doggroomingapi.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
@@ -13,6 +16,9 @@ import java.util.Date;
 
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "dogs")
 @Entity
 public class Dog {
