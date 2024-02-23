@@ -34,6 +34,7 @@ public class UserController {
     public ResponseEntity<Boolean> loginUser(@RequestBody String username, @RequestBody String attemptedPassword) {
         try {
             User retrievedUser = userService.getUserByUsername(username);
+
             return ResponseEntity.ok(BCrypt.checkpw(attemptedPassword, retrievedUser.getPassword()));
 
         } catch (Exception e) {
