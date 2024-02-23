@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,17 @@ public class UserController {
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         try {
             return ResponseEntity.ok(userService.saveUser(user));
+        } catch (Exception e) {
+            return new ResponseEntity(ExceptionUtils.getStackTrace(e), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Boolean> loginUser(@RequestBody String username, @RequestBody String attemptedPassword) {
+        try {
+            User retrievedUser = userService.getUserByUsername(username);
+            return ResponseEntity.ok(BCrypt.checkpw(attemptedPassword, retrievedUser.getPassword()));
+
         } catch (Exception e) {
             return new ResponseEntity(ExceptionUtils.getStackTrace(e), HttpStatus.BAD_REQUEST);
         }

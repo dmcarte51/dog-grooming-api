@@ -4,6 +4,7 @@ package com.example.doggroomingapi.user;
 import com.example.doggroomingapi.exceptions.UserAlreadyExistsException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityManager;
@@ -33,6 +34,15 @@ public class UserService {
         }
     }
 
+    public User getUserByUsername(String username) {
+        try {
+            return userRepository.findByUsername(username);
+        } catch(NoSuchElementException | IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     @Transactional
     public User saveUser(User user) {
@@ -53,6 +63,12 @@ public class UserService {
 
         return false;
     }
+
+    // method for checking if password & matchPassword match
+    public boolean passwordsMatch(String password, String matchPassword) {
+        return BCrypt.checkpw(password, matchPassword);
+    }
+
     // Custom findByEmail created in UserRepository
 
     // // Used for testing
@@ -63,7 +79,7 @@ public class UserService {
         return userRepository.findByEmail(email).isEmpty();
     }
     public boolean usernameAvailable(String username) {
-        return userRepository.findByUsername(username).isEmpty();
+        return userRepository.findByUsername(username) != null;
     }
 }
 
