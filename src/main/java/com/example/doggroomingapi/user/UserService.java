@@ -1,24 +1,36 @@
 package com.example.doggroomingapi.user;
 
 
-import com.example.doggroomingapi.exceptions.UserAlreadyExistsException;
+import com.example.doggroomingapi.config.JwtService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
     @PersistenceContext
     protected EntityManager entityManager;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final JwtService jwtService;
+
+    private final AuthenticationManager authenticationManager;
 
 
     public List<User> getUsers() {
@@ -34,21 +46,52 @@ public class UserService {
         }
     }
 
-    public User getUserByUsername(String username) {
+    public Optional<User> getUserByUsername(String username) {
         try {
             return userRepository.findByUsername(username);
         } catch(NoSuchElementException | IllegalArgumentException e) {
             e.printStackTrace();
-            return null;
+            return Optional.empty();
         }
     }
 
 
     @Transactional
-    public User saveUser(User user) {
-        user = userRepository.saveAndFlush(user);
+    public AuthenticationResponse saveUser(User user) {
+        user = User.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .matchPassword(passwordEncoder.encode(user.getMatchPassword()))
+                .phoneNumber(user.getPhoneNumber())
+                .username(user.getUsername())
+                .build();
+        userRepository.saveAndFlush(user);
         entityManager.refresh(user);
-        return user;
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse
+                .builder()
+                .token(jwtToken)
+                .build();
+    }
+
+    @Transactional
+    public AuthenticationResponse loginUser(AuthenticationRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()
+                )
+        );
+        var user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow();
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse
+                .builder()
+                .token(jwtToken)
+                .build();
     }
 
     public boolean deleteUser(Long id) {
