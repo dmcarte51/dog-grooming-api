@@ -67,6 +67,7 @@ public class UserService {
                 .matchPassword(passwordEncoder.encode(user.getMatchPassword()))
                 .phoneNumber(user.getPhoneNumber())
                 .username(user.getUsername())
+                .role((user.getRole()))
                 .build();
         userRepository.saveAndFlush(user);
         entityManager.refresh(user);
