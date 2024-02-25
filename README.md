@@ -5,14 +5,19 @@ create a home dog grooming business. The project
 (in its current state) consists of a ReactJS UI/UX
 with API endpoints from this API. 
 ---
-### Current dependencies:
+### Dependencies:
 
-* Spring Data Starter JPA:
-  * 
-
-* PostgreSQL Driver:
-  * Used for creating, updating, and deleting the database
-  during development.
-  * It also establishes a connection from the application
-  to the database.
+* Spring Boot Starter Web
+* Spring Boot Starter Data JPA
+* Spring Boot Starter Test
+* Spring Boot Starter Security
+* PostgreSQL Driver
+* Lombok
+* Jakarta Persistence
+* Jakarta Validation
+* Apache Commons Lang3
+* JWT Dependencies
+  * JWT Impl
+  * JWT Jackson
+  * JWT API
 
