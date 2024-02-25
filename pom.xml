@@ -17,54 +17,58 @@
         <java.version>17</java.version>
     </properties>
     <dependencies>
+<!--Contains Spring Boot JPA along with a few other dependencies-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+<!--Contains necessary starter dependencies such as JSON, MVC, Web, and Tomcat server as an embedded container-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+<!--Enables interaction and management of PostgreSQL database-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+<!--Starter testing libraries such as JUnit Jupiter and Mockito-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-            <version>2.2.3</version>
-        </dependency>
+<!--
+Allows for ORM including @Entity, @Table, @Column, and @JoinColumn.
+EntityManager allows for multiple database operations within a transaction
+-->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
         </dependency>
+<!--Allows for validators such as @NotNull and @Email to enforce validation rules within the database-->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>2.0.2</version>
         </dependency>
+<!--Provides string and numerical manipulation methods and some other enhancements to java.util.Date-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
         </dependency>
+<!--
+Provides libraries for securing application such as headers, authentication, authorization, and encryption.
+Most notably (used within the project) is BCrypt, a password hashing and salting library.
+-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+<!--Lombok reduces boilerplate code such as getters, setters, and constructors-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -72,6 +76,11 @@
             <scope>provided</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
+<!--
+The following 3 dependencies are all used for implementing JWTs (JSON Web Tokens). JWTs are
+used for maintaining database security (authorization, maintaining stateless sessions,
+stateless authentication,and secure communication
+-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
