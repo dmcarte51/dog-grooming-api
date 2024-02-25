@@ -2,8 +2,7 @@
 
 I created this API as part of my partner's plan to 
 create a home dog grooming business. The project
-(in its current state) consists of a ReactJS UI/UX
-with API endpoints from this API. 
+consists of a ReactJS UI/UX with endpoints from this API. 
 ---
 ### Dependencies:
 
