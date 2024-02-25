@@ -58,7 +58,7 @@ public class Dog {
     @Column(name = "is_bite_risk")
     private boolean isBiteRisk;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "birthday")
     private Date birthday;
 

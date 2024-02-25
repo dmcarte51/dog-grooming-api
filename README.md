@@ -53,7 +53,7 @@ generation (registering and logging in).*
 *Request body:*  
 {  
 "username": "dogperson321",  
-"password": "password123"
+"password": "password123"  
 }  
 
 *To create a dog, you need to add the token to the header.
@@ -75,7 +75,7 @@ is in the header of this request",
 "breed": "simpson",  
 "weight": 10,  
 "isBiteRisk": false,  
-"birthday": "12-17-1989"  
+"birthday": "1989-12-17"  
 }  
 
 ---
