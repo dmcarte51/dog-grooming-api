@@ -1,5 +1,6 @@
 package com.example.doggroomingapi.user;
-import com.example.doggroomingapi.dogs.Dog;
+
+
 import com.example.doggroomingapi.validators.PasswordMatches;
 import com.example.doggroomingapi.validators.ValidEmail;
 import lombok.AllArgsConstructor;
@@ -9,15 +10,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import jakarta.persistence.*;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 
 @Data
@@ -33,6 +30,7 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     @NotNull
     @NotEmpty
