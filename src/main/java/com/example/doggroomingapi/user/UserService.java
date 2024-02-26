@@ -33,29 +33,10 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
 
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
-    }
-
-    public User getUser(Long id) {
-        try {
-            return userRepository.findById(id).get();
-        } catch(NoSuchElementException | IllegalArgumentException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Optional<User> getUserByUsername(String username) {
-        try {
-            return userRepository.findByUsername(username);
-        } catch(NoSuchElementException | IllegalArgumentException e) {
-            e.printStackTrace();
-            return Optional.empty();
-        }
-    }
-
-
+//        Lines 64-76 are responsible for saving a new user.
+//        The remaining code is responsible for generating a token with the user details inserted into
+//        the payload/data section. This part is basically optional as this is the equivalent of logging
+//        in the user immediately after registering, but it improves the UX.
     @Transactional
     public AuthenticationResponse saveUser(User user) {
         user = User.builder()
@@ -71,6 +52,7 @@ public class UserService {
                 .build();
         userRepository.saveAndFlush(user);
         entityManager.refresh(user);
+
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse
                 .builder()
@@ -95,30 +77,7 @@ public class UserService {
                 .build();
     }
 
-    public boolean deleteUser(Long id) {
-        try {
-            if(userRepository.existsById(id)) {
-                userRepository.deleteById(id);
-                return true;
-            }
-        } catch(IllegalArgumentException e) {
-            e.printStackTrace();
-        }
 
-        return false;
-    }
-
-    // method for checking if password & matchPassword match
-    public boolean passwordsMatch(String password, String matchPassword) {
-        return BCrypt.checkpw(password, matchPassword);
-    }
-
-    // Custom findByEmail created in UserRepository
-
-    // // Used for testing
-//    public User findByEmail(String email) {
-//        return userRepository.findByEmail(email);
-//    }
     public boolean emailAvailable(String email) {
         return userRepository.findByEmail(email).isEmpty();
     }

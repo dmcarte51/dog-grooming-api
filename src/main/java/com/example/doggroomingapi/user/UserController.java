@@ -24,61 +24,19 @@ public class UserController {
     @Autowired
     public UserService userService;
 
+    // USER PRIVILEGE
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<AuthenticationResponse> registerUser(
             @RequestBody User user
     ) {
         return ResponseEntity.ok(userService.saveUser(user));
     }
 
+    // USER PRIVILEGE
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(
+    public ResponseEntity<AuthenticationResponse> loginUser(
             @RequestBody AuthenticationRequest request
     ) {
         return ResponseEntity.ok(userService.loginUser(request));
     }
-
-//    @PostMapping("/register")
-//    public ResponseEntity<?> registerUser(@RequestBody User user) {
-//        try {
-//            User savedUser = userService.saveUser(user);
-//            return ResponseEntity.ok(savedUser);
-//        } catch (Exception e) {
-//            String errorMessage = "Failed to register user: " + e.getMessage();
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
-//        }
-//    }
-
-    @GetMapping(produces = "application/json")
-    public List<User> getUsers() {
-            System.out.println("testing");
-            return ResponseEntity.ok(userService.getUsers()).getBody();
-    }
-
-    @GetMapping(path = "/{id}", produces = "application/json")
-    public User getUser(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUser(id)).getBody();
-    }
-
-    @PutMapping(path = "/{id}", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User newUser) {
-        User oldUser = userService.getUser(id);
-
-        if (oldUser == null) {
-            return ResponseEntity.notFound().build(); // Return 404 Not Found if user not found
-        }
-
-        oldUser.setUsername(newUser.getUsername());
-        oldUser.setEmail(newUser.getEmail());
-        oldUser.setFirstName(newUser.getFirstName());
-        oldUser.setLastName(newUser.getLastName());
-        oldUser.setPassword(newUser.getPassword());
-        oldUser.setPhoneNumber(newUser.getPhoneNumber());
-
-        userService.saveUser(oldUser); // Assuming saveUser updates the user in the database
-
-        return ResponseEntity.ok(oldUser);
-    }
-
-
 }
