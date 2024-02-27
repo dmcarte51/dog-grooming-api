@@ -18,7 +18,7 @@ public class UserController {
     @Autowired
     public UserService userService;
 
-    // USER PRIVILEGE
+    // Registers a user and logs them in automatically by generating a JWT as the response
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> registerUser(
             @RequestBody User user
@@ -26,7 +26,7 @@ public class UserController {
         return ResponseEntity.ok(userService.saveUser(user));
     }
 
-    // USER PRIVILEGE
+    // Logs in a registered user and generates a JWT as the response
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> loginUser(
             @RequestBody AuthenticationRequest request

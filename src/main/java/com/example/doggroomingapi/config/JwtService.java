@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+// Contains methods for generating tokens, extracting info from the tokens, and validating tokens.
 @Service
 public class JwtService {
 
@@ -23,12 +24,14 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
+        int tokenLifeSpan = 86400000; // How long the token lasts (in ms), 86,400,000 is a day.
+
         return Jwts
                 .builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24)))
+                .expiration(new Date(System.currentTimeMillis() + tokenLifeSpan))
                 .signWith(SECRET_KEY, Jwts.SIG.HS256)
                 .compact();
     }
