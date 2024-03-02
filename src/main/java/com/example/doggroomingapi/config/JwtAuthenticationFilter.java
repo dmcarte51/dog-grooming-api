@@ -16,12 +16,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
-@Component
+
+// JwtAuthenticationFilter is responsible for handling JWT authentication during every http request.
+@Component // Marked as a component to be discovered, instantiated, given their dependencies, and injected where needed.
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final UserDetailsService userDetailsService;
-    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService; // For the loadByUsername method
+    private final JwtService jwtService; // Used for extracting username and validating token in each request
 
 
     @Override

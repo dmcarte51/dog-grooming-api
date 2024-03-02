@@ -12,6 +12,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/*
+This class is a configuration for Spring Security. It essentially sets rules for securing
+http requests.
+ */
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -24,16 +29,16 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-        .csrf(AbstractHttpConfigurer::disable)
+        .csrf(AbstractHttpConfigurer::disable) // Disabled because of stateless authentication; it's unnecessary
         .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/users/**").permitAll()
                 .anyRequest().authenticated()
-        )
-        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authenticationProvider(authProvider)
-        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        ) // Authorize http requests starting with /users/ and check all others for valid token
+        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // set session to stateless
+        .authenticationProvider(authProvider) // Spring Authentication provider
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // filters by jwt, then username/password
 
-        return http.build();
+        return http.build(); // return the built authenticated filtered http request
     }
 
 }
