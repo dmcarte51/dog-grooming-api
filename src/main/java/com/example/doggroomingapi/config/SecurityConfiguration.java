@@ -34,11 +34,11 @@ public class SecurityConfiguration {
                 .requestMatchers("/users/**").permitAll()
                 .anyRequest().authenticated()
         ) // Authorize http requests starting with /users/ and check all others for valid token
-        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // set session to stateless
+        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Set session to stateless
         .authenticationProvider(authProvider) // Spring Authentication provider
-        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // filters by jwt, then username/password
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Filters by jwt, then username/password
 
-        return http.build(); // return the built authenticated filtered http request
+        return http.build(); // Return the built authenticated filtered http request
     }
 
 }
